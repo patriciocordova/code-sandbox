@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class ArraysNStrings {
 	public static void main(String args[]){
-		System.out.println(rotate(new int[][]{{1,2,3,4},{12,13,14,5},{11,16,15,6},{10,9,8,7}}));
+		
 	}
 	
 	//1.1. Implement an algorithm to determine if a string has all unique characters. What
@@ -143,32 +143,32 @@ public class ArraysNStrings {
 	//place?
 	public static int[][] rotate(int[][] image) {
 		int previous,keep;
-		int i=0,k=0,x,y,newLength = image.length;
+		int k=0,x,y,newLength = image.length;
 		while(k<newLength){
-			newLength = newLength - k;
-			for (int m = 0; m < newLength-1; m++) {
+			newLength = newLength - k - 1;
+			for (int m = 0; m < newLength; m++) {
 				x = k;
 				y = k;
 				previous = image[x][y];
-				for (int j = 0; j < newLength-1; j++) {
+				for (int j = 0; j < newLength; j++) {
 					keep = image[x][y+1];
 					image[x][y+++1] = previous;
 					previous = keep;
 				}
-				y=newLength-1;
-				for (int j = 0; j < newLength-1; j++) {
+				y=newLength+k;
+				for (int j = 0; j < newLength; j++) {
 					keep = image[x+1][y];
 					image[x+++1][y] = previous;
 					previous = keep;
 				}
-				x=newLength-1;
-				for (int j = 0; j < newLength-1; j++) {
+				x=newLength+k;
+				for (int j = 0; j < newLength; j++) {
 					keep = image[x][y-1];
 					image[x][y---1] = previous;
 					previous = keep;
 				}
-				y=0;
-				for (int j = 0; j < newLength-1; j++) {
+				y=k;
+				for (int j = 0; j < newLength; j++) {
 					keep = image[x-1][y];
 					image[x---1][y] = previous;
 					previous = keep;
@@ -176,6 +176,28 @@ public class ArraysNStrings {
 			}
 			k++;
 		}
+		
 		return image;
+	}
+	
+	
+	// Prints a matrix of NxN size in a visible/understandable way.
+	public static void printMatrix(int[][] matrix) {
+		int length = matrix.length;
+		String size = length*length + "";
+		
+		
+		for(int i=0;i<matrix.length;i++){
+			for (int j = 0; j < matrix.length; j++) {
+				int repeat = size.length() - (matrix[i][j]+"").length();				
+				System.out.print(new String(new char[repeat]).replace("\0", " ") + matrix[i][j]);
+				if(j+1<matrix.length){
+					System.out.print("|");
+				}
+			}
+			System.out.println();
+		}
+		
+		System.out.println();
 	}
 }

@@ -49,4 +49,24 @@ public class ArraysNStringsTest {
 		assertEquals(ArraysNStrings.compress("ab"),"ab");
 		assertEquals(ArraysNStrings.compress("abcccccccccc"),"a1b1c10");
 	}
+	
+	@Test
+	public void testRotate() {
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{1}}),
+				new int[][]{{1}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{1,2},{4,3}}),
+				new int[][]{{4,1},{3,2}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{1,2,3},{8,9,4},{7,6,5}}),
+				new int[][]{{7, 8, 1}, {6, 9, 2}, {5, 4, 3}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{1,2,3,4},{12,13,14,5},{11,16,15,6},{10,9,8,7}}),
+				new int[][]{{10, 11, 12, 1}, {9, 16, 13, 2}, {8, 15, 14, 3}, {7, 6, 5, 4}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{1,2,3,4,5},{16,17,18,19,6},{15,24,25,20,7},{14,23,22,21,8},{13,12,11,10,9}}),
+				new int[][]{{13, 14, 15, 16, 1}, {12, 23, 24, 17, 2}, {11, 22, 25, 18, 3}, {10, 21, 20, 19, 4}, {9, 8, 7, 6, 5}});
+		
+	}
 }

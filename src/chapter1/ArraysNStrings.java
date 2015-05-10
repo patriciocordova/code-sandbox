@@ -1,11 +1,16 @@
 package chapter1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.TreeSet;
+
+import com.sun.corba.se.spi.extension.ZeroPortPolicy;
 
 public class ArraysNStrings {
 	public static void main(String args[]){
-		
+		System.out.println(zeroeMatrix(new int[][]{{1,2,3,4,4},{12,13,8,0,4},{11,2,15,3,4},{1,0,8,1,4},{1,9,8,1,4}}));
 	}
 	
 	//1.1. Implement an algorithm to determine if a string has all unique characters. What
@@ -199,5 +204,53 @@ public class ArraysNStrings {
 		}
 		
 		System.out.println();
+	}
+	
+	//1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row
+	//and column are set to 0.
+	public static int[][] zeroeMatrix(int[][] matrix) {
+		printMatrix(matrix);
+		
+		//Get the zero positions.
+		ArrayList<int[]> zeroPositions=new ArrayList<>();
+		for(int i=0;i<matrix.length;i++){
+			for (int j = 0; j < matrix[i].length; j++) {
+				if(matrix[i][j]==0){
+					zeroPositions.add(new int[]{i,j});
+				}
+			}
+		}
+		
+		//Get the unique rows and columns.
+		TreeSet<Integer> rows = new TreeSet<>();
+		TreeSet<Integer> cols = new TreeSet<>();
+		for (Iterator iterator = zeroPositions.iterator(); iterator.hasNext();) {
+			int[] position = (int[]) iterator.next();
+			rows.add(position[0]);
+			cols.add(position[1]);
+		}
+		
+		//Zero rows.
+		for(int i=0;i<rows.size();i++){
+			for (Iterator iterator = rows.iterator(); iterator.hasNext();) {
+				Integer integer = (Integer) iterator.next();
+				for (int j = 0; j < matrix[integer].length; j++) {
+					matrix[integer][j] = 0;
+				}
+			}
+		}
+		
+		//Zero columns.
+		for(int i=0;i<cols.size();i++){
+			for (Iterator iterator = cols.iterator(); iterator.hasNext();) {
+				Integer integer = (Integer) iterator.next();
+				for (int j = 0; j < matrix.length; j++) {
+					matrix[j][integer] = 0;
+				}
+			}
+		}
+		
+		printMatrix(matrix);
+		return matrix;
 	}
 }

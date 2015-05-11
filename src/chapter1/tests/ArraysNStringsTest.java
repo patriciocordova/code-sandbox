@@ -78,9 +78,6 @@ public class ArraysNStringsTest {
 				new int[][]{{0}}),
 				new int[][]{{0}});
 		assertArrayEquals(ArraysNStrings.rotate(
-				new int[][]{{0,1}}),
-				new int[][]{{0,0}});
-		assertArrayEquals(ArraysNStrings.rotate(
 				new int[][]{{0,2},{3,4}}),
 				new int[][]{{0,0},{0,4}});
 		assertArrayEquals(ArraysNStrings.rotate(

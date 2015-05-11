@@ -71,19 +71,19 @@ public class ArraysNStringsTest {
 	
 	@Test
 	public void testZeroeMatrix() {
-		assertArrayEquals(ArraysNStrings.rotate(
+		assertArrayEquals(ArraysNStrings.zeroeMatrix(
 				new int[][]{{1}}),
 				new int[][]{{1}});
-		assertArrayEquals(ArraysNStrings.rotate(
+		assertArrayEquals(ArraysNStrings.zeroeMatrix(
 				new int[][]{{0}}),
 				new int[][]{{0}});
-		assertArrayEquals(ArraysNStrings.rotate(
+		assertArrayEquals(ArraysNStrings.zeroeMatrix(
 				new int[][]{{0,2},{3,4}}),
 				new int[][]{{0,0},{0,4}});
-		assertArrayEquals(ArraysNStrings.rotate(
+		assertArrayEquals(ArraysNStrings.zeroeMatrix(
 				new int[][]{{0,2},{3,4}}),
 				new int[][]{{0,0},{0,4}});
-		assertArrayEquals(ArraysNStrings.rotate(
+		assertArrayEquals(ArraysNStrings.zeroeMatrix(
 				new int[][]{{0,2,3},{4,5,6},{7,8,0}}),
 				new int[][]{{0,0,0},{0,5,0},{0,0,0}});
 	}

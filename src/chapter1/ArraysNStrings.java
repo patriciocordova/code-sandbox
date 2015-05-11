@@ -16,7 +16,7 @@ public class ArraysNStrings {
 	//1.1. Implement an algorithm to determine if a string has all unique characters. What
 	//if you cannot use additional data structures?
 	public static boolean hasUniqueChars(String input){
-		if(input == null) return true;
+		if(input == null) return false;
 		HashSet<String> uniques = new HashSet<>();
 		for(int i=0;i<input.length();i++){
 			if(!uniques.contains(input.charAt(i)+"")){
@@ -32,7 +32,7 @@ public class ArraysNStrings {
 	//if you cannot use additional data structures?
 	public static boolean hasUniqueChars2(String input){
 		if(input == null) return true;
-		boolean[] uniques = new boolean[1000];
+		boolean[] uniques = new boolean[1000]; // TODO: Check if it's Unicode or ASCII.
 		for(int i=0;i<input.length();i++){
 			if(!uniques[Character.getNumericValue(input.charAt(i))]){
 				uniques[Character.getNumericValue(input.charAt(i))] = true;

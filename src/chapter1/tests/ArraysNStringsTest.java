@@ -12,7 +12,7 @@ public class ArraysNStringsTest {
 		assertEquals(ArraysNStrings.hasUniqueChars("holaa"),false);
 		assertEquals(ArraysNStrings.hasUniqueChars("aholaa"),false);
 		assertEquals(ArraysNStrings.hasUniqueChars(""),true);
-		assertEquals(ArraysNStrings.hasUniqueChars(null),true);
+		assertEquals(ArraysNStrings.hasUniqueChars(null),false);
 	}
 	
 	@Test

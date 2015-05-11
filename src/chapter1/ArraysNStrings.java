@@ -10,7 +10,7 @@ import com.sun.corba.se.spi.extension.ZeroPortPolicy;
 
 public class ArraysNStrings {
 	public static void main(String args[]){
-		System.out.println(zeroeMatrix(new int[][]{{1,2,3,4,4},{12,13,8,0,4},{11,2,15,3,4},{1,0,8,1,4},{1,9,8,1,4}}));
+		System.out.println(isRotated("hola","ahol"));
 	}
 	
 	//1.1. Implement an algorithm to determine if a string has all unique characters. What
@@ -209,8 +209,6 @@ public class ArraysNStrings {
 	//1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row
 	//and column are set to 0.
 	public static int[][] zeroeMatrix(int[][] matrix) {
-		printMatrix(matrix);
-		
 		//Get the zero positions.
 		ArrayList<int[]> zeroPositions=new ArrayList<>();
 		for(int i=0;i<matrix.length;i++){
@@ -250,7 +248,20 @@ public class ArraysNStrings {
 			}
 		}
 		
-		printMatrix(matrix);
 		return matrix;
+	}
+	
+	//1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row
+	//and column are set to 0.
+	public static boolean isRotated(String s1, String s2) {
+		if(s1 == null || s2 == null) return false;
+		if(s1.length() != s2.length()) return false;
+		
+		String doubled = s1 + s1;
+		if(doubled.contains(s2)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

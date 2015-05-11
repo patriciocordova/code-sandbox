@@ -67,6 +67,43 @@ public class ArraysNStringsTest {
 		assertArrayEquals(ArraysNStrings.rotate(
 				new int[][]{{1,2,3,4,5},{16,17,18,19,6},{15,24,25,20,7},{14,23,22,21,8},{13,12,11,10,9}}),
 				new int[][]{{13, 14, 15, 16, 1}, {12, 23, 24, 17, 2}, {11, 22, 25, 18, 3}, {10, 21, 20, 19, 4}, {9, 8, 7, 6, 5}});
-		
+	}
+	
+	@Test
+	public void testZeroeMatrix() {
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{1}}),
+				new int[][]{{1}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{0}}),
+				new int[][]{{0}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{0,1}}),
+				new int[][]{{0,0}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{0,2},{3,4}}),
+				new int[][]{{0,0},{0,4}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{0,2},{3,4}}),
+				new int[][]{{0,0},{0,4}});
+		assertArrayEquals(ArraysNStrings.rotate(
+				new int[][]{{0,2,3},{4,5,6},{7,8,0}}),
+				new int[][]{{0,0,0},{0,5,0},{0,0,0}});
+	}
+	
+	@Test
+	public void testIsRotated() {
+		assertFalse(ArraysNStrings.isRotated("a", null));
+		assertFalse(ArraysNStrings.isRotated(null,"a"));
+		assertFalse(ArraysNStrings.isRotated("a", "ab"));
+		assertTrue(ArraysNStrings.isRotated("a", "a"));
+		assertTrue(ArraysNStrings.isRotated("aa", "aa"));
+		assertTrue(ArraysNStrings.isRotated("ab", "ba"));
+		assertTrue(ArraysNStrings.isRotated("hola", "olah"));
+		assertTrue(ArraysNStrings.isRotated("hola", "laho"));
+		assertTrue(ArraysNStrings.isRotated("hola", "ahol"));
+		assertTrue(ArraysNStrings.isRotated("lalo", "lola"));
+		assertFalse(ArraysNStrings.isRotated("hola", "holo"));
+		assertFalse(ArraysNStrings.isRotated("lllo", "llla"));
 	}
 }

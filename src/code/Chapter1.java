@@ -1,4 +1,4 @@
-package chapter1;
+package code;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 import com.sun.corba.se.spi.extension.ZeroPortPolicy;
 
-public class ArraysNStrings {
+public class Chapter1 {
 	public static void main(String args[]){
 		System.out.println(isRotated("hola","ahol"));
 	}

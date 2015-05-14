@@ -1,17 +1,20 @@
 package code.structures;
 
-public class List {
-	Node start;
+public class List<T> {
+	Node<T> start;
+	Node<T> end;
 	
-	public void addElement(int element) {
+	public void addElement(T element) {
 		if(start == null){
-			start = new Node(element);
+			start = new Node<T>(element);
 		}else{
-			Node current = start;
-			while(current.getNext()!=null){
-				current = current.getNext();
+			if(end == null){
+				start.next = new Node<T>(element);
+				end = start.next;
+			}else{
+				end.next = new Node<T>(element);
+				end = end.next;
 			}
-			current.setNext(new Node(element));
 		}
 	}
 }

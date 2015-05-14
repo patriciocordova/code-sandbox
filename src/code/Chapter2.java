@@ -1,9 +1,10 @@
 package code;
 
+import java.util.HashSet;
 import java.util.TreeSet;
 
-import code.structures.CustomList;
 import code.structures.List;
+import code.structures.Node;
 
 public class Chapter2 {
 	public static void main(String[] args) {
@@ -12,7 +13,9 @@ public class Chapter2 {
 		lista.addElement(2);
 		lista.addElement(3);
 		lista.addElement(4);
-		lista.addElement(5);
+		lista.addElement(3);
+		lista.addElement(1);
+		System.out.println(findLoop(lista).element);
 	}
 	
 	/*
@@ -25,10 +28,16 @@ public class Chapter2 {
 	 * Input: A - > B - > C - > D - > E - > C [the same C as earlier]
 	 * Output: C
 	 */
-	public static void findLoop(List<String> elements) {
-		CustomList<T>
-		for (String string : set) {
-			
+	public static <T> Node<T> findLoop(List<T> elements) {
+		HashSet<T> values = new HashSet<>();
+		while(elements.hasNext()){
+			Node<T> node = elements.next();
+			if(!values.contains(node.element)){
+				values.add(node.element);
+			}else{
+				return node;
+			}
 		}
+		return null;
 	}
 }

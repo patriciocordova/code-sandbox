@@ -39,7 +39,18 @@ public class Chapter2 {
 	//EXAMPLE
 	//Input: the node c from the linked list a->b->c->d->e
 	//Result: nothing is returned, but the new linked list looks like a- >b- >d->e
-	
+	public static <T> Node<T> deleteMiddleNode(Node<T> element) {
+		if(element == null) return null;
+		
+		Node<T> firstPointer = element;
+		Node<T> secondPointer = element.next;
+		while(secondPointer.next!=null){
+			firstPointer.element = secondPointer.element;
+			firstPointer = secondPointer;
+			secondPointer = secondPointer.next;
+		}
+		
+	}
 	
 	/*
 	 * 2.6 Given a circular linked list, implement an algorithm which returns the node at

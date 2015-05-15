@@ -6,11 +6,15 @@ public class List<T> implements Iterator {
 	Node<T> start;
 	Node<T> current;
 	Node<T> end;
+	boolean traveled;
+	
+	public List() {
+		traveled = false;
+	}
 	
 	public void addElement(T element) {
 		if(start == null){
 			start = new Node<T>(element);
-			current = start;
 		}else{
 			if(end == null){
 				start.next = new Node<T>(element);
@@ -24,16 +28,31 @@ public class List<T> implements Iterator {
 	
 	@Override
 	public boolean hasNext() {
-		if(current != null) return true;
+		if(current != null){
+			return true;
+		}else{
+			if(traveled == false){
+				if(start!=null){
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public Node<T> next() {
-		Node<T> toReturn = current;
-		if(current.next != null){
-			current = current.next;
+		if(current == null && traveled == false){
+			current = start;
+			traveled = true;
 		}
+		Node<T> toReturn = current;
+		current = (current != null)? current.next : null;
 		return toReturn;
+	}
+	
+	public void rewind(){
+		current = null;
+		traveled = false;
 	}
 }

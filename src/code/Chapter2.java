@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.TreeSet;
 
-import code.structures.List;
 import code.structures.Node;
+import code.structures.NodeList;
 
 public class Chapter2 {
 	public static void main(String[] args) {
-		List<Integer> lista = new List();
-		lista.addElement(1);
-		lista.addElement(2);
-		lista.addElement(3);
-		lista.addElement(4);
-		lista.addElement(5);
-		lista.addElement(6);
-		lista.addElement(7);
-		lista.addElement(8);
-		System.out.println(findToLast(lista,0).element);
+		NodeList<Integer> list = new NodeList();
+		list.addElement(1);
+		list.addElement(2);
+		list.addElement(3);
+		list.addElement(4);
+		list.addElement(5);
+		list.addElement(6);
+		list.addElement(7);
+		list.addElement(8);
+		System.out.println(deleteMiddleNode(4, list));
 	}
 	
 	//2.2 Implement an algorithm to find the kth to last element of a singly linked list.
-	public static <T> Node<T> findToLast(List<T> elements,int k) {		
+	public static <T> Node<T> findToLast(NodeList<T> elements,int k) {		
 		ArrayList<Node<T>> numberedElements = new ArrayList<>();
 		while(elements.hasNext()){
 			Node<T> next = elements.next();
@@ -39,17 +39,35 @@ public class Chapter2 {
 	//EXAMPLE
 	//Input: the node c from the linked list a->b->c->d->e
 	//Result: nothing is returned, but the new linked list looks like a- >b- >d->e
-	public static <T> Node<T> deleteMiddleNode(Node<T> element) {
+	public static <T> NodeList<T> deleteMiddleNode(T element, NodeList<T> list) {
 		if(element == null) return null;
 		
-		Node<T> firstPointer = element;
-		Node<T> secondPointer = element.next;
-		while(secondPointer.next!=null){
+		Node<T> firstPointer = findNode(element, list);
+		if(firstPointer == null) return null;
+		Node<T> secondPointer = firstPointer.next;
+		while(secondPointer!=null){
 			firstPointer.element = secondPointer.element;
+			if(secondPointer.next == null){
+				firstPointer.next = null;
+				break;
+			}
 			firstPointer = secondPointer;
 			secondPointer = secondPointer.next;
 		}
 		
+		return list;
+	}
+	
+	public static <T> Node<T> findNode(T element, NodeList<T> lista){
+		lista.rewind();
+		Node<T> currentNode;
+		while(lista.hasNext()){
+			currentNode = lista.next();
+			if(currentNode.element == element){
+				return currentNode;
+			}
+		}
+		return null;
 	}
 	
 	/*
@@ -62,7 +80,7 @@ public class Chapter2 {
 	 * Input: A - > B - > C - > D - > E - > C [the same C as earlier]
 	 * Output: C
 	 */
-	public static <T> Node<T> findLoop(List<T> elements) {
+	public static <T> Node<T> findLoop(NodeList<T> elements) {
 		HashSet<T> values = new HashSet<>();
 		while(elements.hasNext()){
 			Node<T> node = elements.next();

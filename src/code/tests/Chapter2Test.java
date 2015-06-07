@@ -4,13 +4,13 @@ import org.junit.Test;
 
 import code.Chapter2;
 import code.Chapter1;
-import code.structures.List;
+import code.structures.NodeList;
 import static org.junit.Assert.*;
 
 public class Chapter2Test {
 	@Test
 	public void testFindToLast() {
-		List<Integer> lista = new List();
+		NodeList<Integer> lista = new NodeList();
 		lista.addElement(1);
 		lista.addElement(2);
 		lista.addElement(3);

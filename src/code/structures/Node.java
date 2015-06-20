@@ -7,4 +7,9 @@ public class Node<T> {
 	public Node(T element){
 		this.element = element;
 	}
+	
+	@Override
+	public String toString(){
+		return element.toString();
+	}
 }

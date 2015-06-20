@@ -2,6 +2,7 @@ package code;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Stack;
 import java.util.TreeSet;
 
 import code.structures.Node;
@@ -11,14 +12,10 @@ public class Chapter2 {
 	public static void main(String[] args) {
 		NodeList<Integer> list = new NodeList();
 		list.addElement(1);
+		list.addElement(1);
 		list.addElement(2);
-		list.addElement(3);
-		list.addElement(4);
-		list.addElement(5);
-		list.addElement(6);
-		list.addElement(7);
-		list.addElement(8);
-		System.out.println(deleteMiddleNode(4, list));
+		list.addElement(2);
+		System.out.println(isPalindrome(list));
 	}
 	
 	//2.2 Implement an algorithm to find the kth to last element of a singly linked list.
@@ -91,5 +88,48 @@ public class Chapter2 {
 			}
 		}
 		return null;
+	}
+	
+	/*
+	 * 2.7 Implement a function to check if a linked list is a palindrome.
+	 */
+	public static <T> boolean isPalindrome(NodeList<T> elements) {
+		elements.rewind();
+		Node pointer = elements.next();
+		boolean possiblyFoundMiddle = false;
+		Stack<Node<T>> firstHalf = new Stack<>();
+		
+		// Add hypotethical first palindrome half to stack.
+		while(pointer!= null){
+			firstHalf.add(pointer);
+			if(pointer.next != null && ((pointer.next.element==pointer.element) || (pointer.next.next != null && pointer.next.next.element == pointer.element))){
+				pointer = (pointer.next.element==pointer.element)?pointer.next:pointer.next.next;
+				possiblyFoundMiddle = true;
+				break;
+			}
+			pointer = pointer.next;
+		}
+		
+		// Return true if there is only one element.
+		if(firstHalf.size() == 1 && possiblyFoundMiddle == false)
+			return true;
+		
+		//Check if hypotethically second half of palindrome corresponds to first part.
+		if(possiblyFoundMiddle){
+			Node pop = firstHalf.pop();		
+			while(pop!=null && pointer!=null && pop.element == pointer.element){
+				if(firstHalf.isEmpty()){
+					if(pointer.next == null){
+						return true;
+					}else{
+						return false;
+					}
+				}
+				pop = firstHalf.pop();
+				pointer = pointer.next;
+			}
+		}
+		
+		return false;
 	}
 }

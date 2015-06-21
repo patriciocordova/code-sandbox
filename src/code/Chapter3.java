@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 public class Chapter3 {
 
 	public static void main(String[] args) {
@@ -19,19 +17,22 @@ public class Chapter3 {
 		c3.addDisks(disks, c3.towerA);
 		c3.move(c3.towerA,c3.towerC,c3.towerB);
 		//c3.move(c3.towerB,c3.towerC,c3.towerA);
-		System.out.println("");
+		c3.printTowers();
 	}
 	
 	public Stack<Integer> towerA;
 	public Stack<Integer> towerB;
 	public Stack<Integer> towerC;
+	public int numDisks;
+	public int maxDisk;
 	
 	public Chapter3(){
 		towerA = new Stack<>();
 		towerB = new Stack<>();
 		towerC = new Stack<>();
+		numDisks = 0;
+		maxDisk = 0;
 	}
-	
 	
 	/*
 	In the classic problem of the Towers of Hanoi, you have 3 towers and N disks of
@@ -47,38 +48,49 @@ public class Chapter3 {
 		while(!start.isEmpty()){
 			if(finish.isEmpty() || (finish.peek() > start.peek())){
 				finish.push(start.pop());
+				printTowers();
 			}else{
 				move(finish,pivot,start);
 			}
-			printTower(towerA, 4, 4);
-			printTower(towerB, 4, 4);
-			printTower(towerC, 4, 4);
-			System.out.println("****************");
 		}
 	}
 	
 	public void addDisks(List<Integer> disks, Stack<Integer> tower) {
 		for (Integer disk : disks) {
 			tower.push(disk);
+			numDisks++;
+			if(disk > maxDisk){
+				maxDisk = disk;
+			}
 		}
 	}
 	
-	public void printTower(Stack<Integer> tower, int numElements, int maxSize) {
-		String print = "";
+	public String[] getTowerDrawArray(Stack<Integer> tower, int numElements, int maxSize) {
 		int numRows = 0;
+		String[] bottomRows = new String[numElements];
+		String spacing = new String(new char[numElements]).replace("\0", " ");
+		String halfDisk = spacing + "|" + spacing;
+		for(int i=0;i<numElements;i++){
+			bottomRows[i] = halfDisk;
+		}
 		for (Integer integer : tower) {
-			numRows++;
 			int offset = maxSize - integer;
-			String spacing = new String(new char[offset]).replace("\0", " ");
-			String halfDisk = new String(new char[integer]).replace("\0", "_");
-			print = spacing + halfDisk + "|" + halfDisk + spacing + "\n" + print;
+			spacing = new String(new char[offset]).replace("\0", " ");
+			halfDisk = new String(new char[integer]).replace("\0", "_");
+			bottomRows[numElements-numRows-1] = spacing + halfDisk + integer + halfDisk + spacing;
+			numRows++;
 		}
-		String newRow = "";
-		if(numRows<numElements){
-			int rowsLeft = numElements - numRows;
-			String spacing = new String(new char[maxSize]).replace("\0", " ");
-			newRow = new String(new char[rowsLeft]).replace("\0", spacing + "|"+ spacing + "\n");
+		return bottomRows;
+	}
+	
+	public void printTowers(){
+		String[] tA = getTowerDrawArray(towerA, numDisks, maxDisk);
+		String[] tB = getTowerDrawArray(towerB, numDisks, maxDisk);
+		String[] tC = getTowerDrawArray(towerC, numDisks, maxDisk);
+		
+		for(int i =0;i<numDisks;i++){
+			System.out.println(tA[i] + " " + tB[i] + " " + tC[i]);
 		}
-		System.out.println(newRow + print + "=======" + "\n");
+		System.out.println("================================");
 	}
 }

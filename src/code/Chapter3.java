@@ -25,6 +25,7 @@ public class Chapter3 {
 	public Stack<Integer> towerC;
 	public int numDisks;
 	public int maxDisk;
+	public int cont;
 	
 	public Chapter3(){
 		towerA = new Stack<>();
@@ -32,6 +33,7 @@ public class Chapter3 {
 		towerC = new Stack<>();
 		numDisks = 0;
 		maxDisk = 0;
+		cont = 0;
 	}
 	
 	/*
@@ -45,7 +47,8 @@ public class Chapter3 {
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
 	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot) {
-		while(!start.isEmpty()){
+		System.out.println(cont++);
+		while(!start.isEmpty() && cont < 100){
 			if(finish.isEmpty() || (finish.peek() > start.peek())){
 				finish.push(start.pop());
 				printTowers();

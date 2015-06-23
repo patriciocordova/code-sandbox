@@ -9,15 +9,15 @@ public class Chapter3 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<Integer> disks = new ArrayList<Integer>();
+		disks.add(5);
 		disks.add(4);
 		disks.add(3);
 		disks.add(2);
 		disks.add(1);
 		Chapter3 c3 = new Chapter3();
 		c3.addDisks(disks, c3.towerA);
-		c3.move(c3.towerA,c3.towerC,c3.towerB);
+		c3.move(c3.towerA,c3.towerC,c3.towerB,"");
 		//c3.move(c3.towerB,c3.towerC,c3.towerA);
-		c3.printTowers();
 	}
 	
 	public Stack<Integer> towerA;
@@ -46,17 +46,38 @@ public class Chapter3 {
 	(3) A disk can only be placed on top of a larger disk.
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
-	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot) {
+	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
 		System.out.println(cont++);
 		while(!start.isEmpty() && cont < 100){
-			if(finish.isEmpty() || (finish.peek() > start.peek())){
-				finish.push(start.pop());
-				printTowers();
+			if(start.size()%2 == 1){
+				if(finish.isEmpty() || (finish.peek() > start.peek())){
+					finish.push(start.pop());
+					printTowers(indent);
+				}else{
+					move(finish,pivot,start,indent + ">");
+				}
 			}else{
-				move(finish,pivot,start);
+				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
+					pivot.push(start.pop());
+					printTowers(indent);
+				}else{
+					move(pivot,finish,start,indent + ">");
+				}
 			}
 		}
 	}
+	
+	/*public void move2(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot) {
+		System.out.println(cont++);
+		if(!start.isEmpty() && start.size() % 2 == 0){
+			if(pivot.isEmpty() || pivot.peek() < start.peek()){
+				pivot.push(start.pop());
+				if(finish.isEmpty() || (finish.peek() > start.peek()){
+					
+				}
+			}
+		}
+	}*/
 	
 	public void addDisks(List<Integer> disks, Stack<Integer> tower) {
 		for (Integer disk : disks) {
@@ -86,13 +107,13 @@ public class Chapter3 {
 		return bottomRows;
 	}
 	
-	public void printTowers(){
+	public void printTowers(String indent){
 		String[] tA = getTowerDrawArray(towerA, numDisks, maxDisk);
 		String[] tB = getTowerDrawArray(towerB, numDisks, maxDisk);
 		String[] tC = getTowerDrawArray(towerC, numDisks, maxDisk);
 		
 		for(int i =0;i<numDisks;i++){
-			System.out.println(tA[i] + " " + tB[i] + " " + tC[i]);
+			System.out.println(indent + tA[i] + " " + tB[i] + " " + tC[i]);
 		}
 		System.out.println("================================");
 	}

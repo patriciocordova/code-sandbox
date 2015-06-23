@@ -9,6 +9,9 @@ public class Chapter3 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<Integer> disks = new ArrayList<Integer>();
+		/*disks.add(5);
+		disks.add(4);
+		*/
 		disks.add(5);
 		disks.add(4);
 		disks.add(3);
@@ -26,6 +29,7 @@ public class Chapter3 {
 	public int numDisks;
 	public int maxDisk;
 	public int cont;
+	
 	
 	public Chapter3(){
 		towerA = new Stack<>();
@@ -48,20 +52,64 @@ public class Chapter3 {
 	*/
 	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
 		System.out.println(cont++);
-		while(!start.isEmpty() && cont < 100){
+		int initialSize = start.size();
+		while(!start.isEmpty() && cont < 50){
 			if(start.size()%2 == 1){
 				if(finish.isEmpty() || (finish.peek() > start.peek())){
 					finish.push(start.pop());
 					printTowers(indent);
 				}else{
-					move(finish,pivot,start,indent + ">");
+					move(finish,pivot,start,indent+">");
+					printTowers(indent);
 				}
 			}else{
 				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
 					pivot.push(start.pop());
 					printTowers(indent);
 				}else{
-					move(pivot,finish,start,indent + ">");
+					move(pivot,finish,start,indent+">");
+					printTowers(indent);
+				}
+			}
+		}
+	}
+	
+	public void solve2(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
+		System.out.println(cont++);
+		
+		while(!start.isEmpty() && cont < 50){
+			if(start.size() == 1){
+				if(finish.isEmpty() || (finish.peek() > start.peek())){
+					finish.push(start.pop());
+					printTowers(indent);
+				}
+			}else{
+				if(start.size() == 2){
+					if(pivot.isEmpty() || (pivot.peek() > start.peek())){
+						pivot.push(start.pop());
+						printTowers(indent);
+						finish.push(start.pop());
+						printTowers(indent);
+						finish.push(pivot.pop());
+						printTowers(indent);
+					}
+				}else{
+					if(start.size() == 3){
+						finish.push(start.pop());
+						printTowers(indent);
+						pivot.push(start.pop());
+						printTowers(indent);
+						pivot.push(finish.pop());
+						printTowers(indent);
+						finish.push(start.pop());
+						printTowers(indent);
+						start.push(pivot.pop());
+						printTowers(indent);
+						finish.push(pivot.pop());
+						printTowers(indent);
+						finish.push(start.pop());
+						printTowers(indent);
+					}
 				}
 			}
 		}

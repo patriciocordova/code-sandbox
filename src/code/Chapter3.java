@@ -19,7 +19,7 @@ public class Chapter3 {
 		disks.add(1);
 		Chapter3 c3 = new Chapter3();
 		c3.addDisks(disks, c3.towerA);
-		c3.move(c3.towerA,c3.towerC,c3.towerB,"");
+		c3.move(c3.towerA,c3.towerC,c3.towerB,"",5);
 		//c3.move(c3.towerB,c3.towerC,c3.towerA);
 	}
 	
@@ -40,6 +40,21 @@ public class Chapter3 {
 		cont = 0;
 	}
 	
+	public void move2(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
+		int initialSize = start.size();
+		System.out.println(cont++);
+		if(start.size() == 1){
+			finish.push(start.pop());
+			printTowers(indent);
+		}else{
+			Stack<Integer> ns = new Stack<Integer>();
+			Stack<Integer> np = new Stack<Integer>();
+			Stack<Integer> nf = new Stack<Integer>();
+			move2(start,pivot,finish,indent+">");
+			move2(pivot,finish,start,indent+">");
+		}
+	}
+	
 	/*
 	In the classic problem of the Towers of Hanoi, you have 3 towers and N disks of
 	different sizes which can slide onto any tower. The puzzle starts with disks sorted
@@ -50,25 +65,24 @@ public class Chapter3 {
 	(3) A disk can only be placed on top of a larger disk.
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
-	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
-		System.out.println(cont++);
+	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent,int num) {
 		int initialSize = start.size();
-		while(!start.isEmpty() && cont < 50){
+		while(!start.isEmpty() && cont++ < 100){
+			System.out.println(initialSize);
+			printTowers(indent);
 			if(start.size()%2 == 1){
 				if(finish.isEmpty() || (finish.peek() > start.peek())){
 					finish.push(start.pop());
-					printTowers(indent);
+					initialSize--;
 				}else{
-					move(finish,pivot,start,indent+">");
-					printTowers(indent);
+					move(finish,pivot,start,indent+">",initialSize);
 				}
 			}else{
 				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
 					pivot.push(start.pop());
-					printTowers(indent);
+					initialSize--;
 				}else{
-					move(pivot,finish,start,indent+">");
-					printTowers(indent);
+					move(pivot,finish,start,indent+">",initialSize);
 				}
 			}
 		}

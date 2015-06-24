@@ -68,10 +68,16 @@ public class Chapter3 {
 	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent,int num) {
 		int initialSize = start.size();
 		while(!start.isEmpty() && cont++ < 100){
-			System.out.println(initialSize);
+			System.out.println(start.size() + "|" + initialSize);
 			printTowers(indent);
 			if(start.size()%2 == 1){
 				if(finish.isEmpty() || (finish.peek() > start.peek())){
+					try{
+					Integer finishI = finish.peek();
+					Integer startI = start.peek();
+					Integer diff = finishI - startI;
+					System.out.println(diff +"  / "+ finish.size() + "*" + start.size());
+					}catch(Exception ex){}
 					finish.push(start.pop());
 					initialSize--;
 				}else{
@@ -79,6 +85,13 @@ public class Chapter3 {
 				}
 			}else{
 				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
+					try{
+					Integer pivotI = pivot.peek();
+					Integer startI = start.peek();
+					Integer diff = pivotI - startI;
+					System.out.println(diff +"  / "+ finish.size() + "*" + start.size());
+					if(finish.size() + )
+					}catch(Exception ex){}
 					pivot.push(start.pop());
 					initialSize--;
 				}else{

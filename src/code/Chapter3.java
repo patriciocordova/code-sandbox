@@ -40,18 +40,22 @@ public class Chapter3 {
 		cont = 0;
 	}
 	
-	public void move2(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
-		int initialSize = start.size();
-		System.out.println(cont++);
-		if(start.size() == 1){
+	public void move2(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent, int mover) {
+		//System.out.println(mover);
+		
+		if(mover == 1){
 			finish.push(start.pop());
 			printTowers(indent);
 		}else{
-			Stack<Integer> ns = new Stack<Integer>();
-			Stack<Integer> np = new Stack<Integer>();
-			Stack<Integer> nf = new Stack<Integer>();
-			move2(start,pivot,finish,indent+">");
-			move2(pivot,finish,start,indent+">");
+			if(mover%2==0){
+				System.out.println("M1");
+				move2(start,pivot,finish,indent+">",mover-1);
+				System.out.println("M2");
+				move2(pivot,finish,start,indent+">",mover-1);
+			}else{
+				System.out.println("M3");
+				move2(start,finish,pivot,indent+">",mover-1);
+			}
 		}
 	}
 	
@@ -66,36 +70,36 @@ public class Chapter3 {
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
 	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent,int num) {
-		int initialSize = start.size();
+		int size = start.size();
+		boolean ret = false;
+		boolean ret2 = false;
 		while(!start.isEmpty() && cont++ < 100){
-			System.out.println(start.size() + "|" + initialSize);
+			System.out.println(size);
 			printTowers(indent);
 			if(start.size()%2 == 1){
 				if(finish.isEmpty() || (finish.peek() > start.peek())){
-					try{
-					Integer finishI = finish.peek();
-					Integer startI = start.peek();
-					Integer diff = finishI - startI;
-					System.out.println(diff +"  / "+ finish.size() + "*" + start.size());
-					}catch(Exception ex){}
 					finish.push(start.pop());
-					initialSize--;
+					if(ret2){
+						ret2 = !ret2;
+						move(finish,pivot,start,indent+">",num);
+					}
+					size--;
 				}else{
-					move(finish,pivot,start,indent+">",initialSize);
+					move(finish,pivot,start,indent+">",num);
+					ret = true;
 				}
 			}else{
 				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
-					try{
-					Integer pivotI = pivot.peek();
-					Integer startI = start.peek();
-					Integer diff = pivotI - startI;
-					System.out.println(diff +"  / "+ finish.size() + "*" + start.size());
-					if(finish.size() + )
-					}catch(Exception ex){}
 					pivot.push(start.pop());
-					initialSize--;
+					if(ret){
+						ret = !ret;
+						move(pivot,finish,start,indent+">",num);
+					}
+					
+					size--;
 				}else{
-					move(pivot,finish,start,indent+">",initialSize);
+					move(pivot,finish,start,indent+">",num);
+					ret2=true;
 				}
 			}
 		}

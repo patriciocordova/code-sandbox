@@ -70,36 +70,40 @@ public class Chapter3 {
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
 	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent,int num) {
-		int size = start.size();
-		boolean ret = false;
-		boolean ret2 = false;
+		
+		Integer prevTop = 0;
+		if(!start.empty())
+		prevTop = start.peek();
 		while(!start.isEmpty() && cont++ < 100){
-			System.out.println(size);
+			System.out.println(num);
 			printTowers(indent);
 			if(start.size()%2 == 1){
 				if(finish.isEmpty() || (finish.peek() > start.peek())){
+					if(prevTop == start.peek())
+						num--;
 					finish.push(start.pop());
-					if(ret2){
-						ret2 = !ret2;
-						move(finish,pivot,start,indent+">",num);
-					}
-					size--;
+					if(!start.empty())
+						prevTop = start.peek();
 				}else{
-					move(finish,pivot,start,indent+">",num);
-					ret = true;
+					Stack<Integer> nf= new Stack<Integer>();
+					nf.addAll(finish);
+					finish.removeAllElements();
+					move(nf,pivot,start,indent+">",nf.size());
+					finish.addAll(nf);
 				}
 			}else{
 				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
+					if(prevTop == start.peek())
+						num--;
 					pivot.push(start.pop());
-					if(ret){
-						ret = !ret;
-						move(pivot,finish,start,indent+">",num);
-					}
-					
-					size--;
+					if(!start.empty())
+						prevTop = start.peek();
 				}else{
-					move(pivot,finish,start,indent+">",num);
-					ret2=true;
+					Stack<Integer> nf= new Stack<Integer>();
+					nf.addAll(pivot);
+					pivot.removeAllElements();
+					move(nf,finish,start,indent+">",nf.size());
+					pivot.addAll(nf);
 				}
 			}
 		}

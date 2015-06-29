@@ -1,4 +1,4 @@
-package code;
+package code.chapter3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class HanoiTowers {
 		disks.add(1);
 		HanoiTowers hanoiTowers = new HanoiTowers();
 		hanoiTowers.addDisks(disks, "A");
-		hanoiTowers.solveTower(hanoiTowers.towerA,hanoiTowers.towerC,hanoiTowers.towerB,disks.size());
+		hanoiTowers.solve("A","C","B",disks.size());
 	}
 	
 	public Stack<Integer> towerA;
@@ -46,26 +46,27 @@ public class HanoiTowers {
 	(3) A disk can only be placed on top of a larger disk.
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
-	public void solveTower(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, int mover) {
+	public void solveTowers(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, int mover) {
 		if(mover == 1){
 			if(finish.isEmpty() || finish.peek() > start.peek()){
 				finish.push(start.pop());
 				printTowers("");
 			}else{
-				solveTower(finish,pivot,start,mover);
+				solveTowers(finish,pivot,start,mover);
 			}
 		}else{
-			solveTower(start,pivot,finish,mover-1);
-			solveTower(start,finish,pivot,1);
-			solveTower(pivot,finish,start,mover-1);
+			solveTowers(start,pivot,finish,mover-1);
+			solveTowers(start,finish,pivot,1);
+			solveTowers(pivot,finish,start,mover-1);
 		}
 	}
 	
-	public void solve(String towerA, String towerB, String towerC, int numDisks) {
-		Stack<Integer> start =
-		Stack<Integer> finish, Stack<Integer> pivot,
+	public void solve(String start, String finish, String pivot, int numDisks) {
+		Stack<Integer> startT = getTowerByLetter(start);
+		Stack<Integer> finishT = getTowerByLetter(finish);
+		Stack<Integer> pivotT = getTowerByLetter(pivot);
+		solveTowers(startT, finishT, pivotT, numDisks);
 	}
-	
 	
 	public Stack<Integer> getTowerByLetter(String letter){
 		switch (letter) {

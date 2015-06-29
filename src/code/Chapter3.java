@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class Chapter3 {
+public class HanoiTowers {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		List<Integer> disks = new ArrayList<Integer>();
 		disks.add(7);
 		disks.add(6);
@@ -16,24 +15,9 @@ public class Chapter3 {
 		disks.add(3);
 		disks.add(2);
 		disks.add(1);
-		Chapter3 c3 = new Chapter3();
-		c3.addDisks(disks, c3.towerA);
-		c3.solveTower(c3.towerA,c3.towerC,c3.towerB,disks.size());
-	}
-	
-	public void solveTower(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, int mover) {
-		if(mover == 1){
-			if(finish.isEmpty() || finish.peek() > start.peek()){
-				finish.push(start.pop());
-				printTowers("");
-			}else{
-				solveTower(finish,pivot,start,mover);
-			}
-		}else{
-			solveTower(start,pivot,finish,mover-1);
-			solveTower(start,finish,pivot,1);
-			solveTower(pivot,finish,start,mover-1);
-		}
+		HanoiTowers hanoiTowers = new HanoiTowers();
+		hanoiTowers.addDisks(disks, "A");
+		hanoiTowers.solveTower(hanoiTowers.towerA,hanoiTowers.towerC,hanoiTowers.towerB,disks.size());
 	}
 	
 	public Stack<Integer> towerA;
@@ -43,8 +27,7 @@ public class Chapter3 {
 	public int maxDisk;
 	public int cont;
 	
-	
-	public Chapter3(){
+	public HanoiTowers(){
 		towerA = new Stack<>();
 		towerB = new Stack<>();
 		towerC = new Stack<>();
@@ -63,30 +46,47 @@ public class Chapter3 {
 	(3) A disk can only be placed on top of a larger disk.
 	Write a program to move the disks from the first tower to the last using stacks.
 	*/
-	public void move(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, String indent) {
-		while(!start.isEmpty() && cont++ < 100){
-			printTowers(indent);
-			if(start.size()%2 == 1){
-				if(finish.isEmpty() || (finish.peek() > start.peek())){
-					finish.push(start.pop());
-				}else{
-					move(finish,pivot,start,indent+">");
-					finish.push(start.pop());
-					move(pivot,finish,start,indent+">");
-				}
+	public void solveTower(Stack<Integer> start, Stack<Integer> finish, Stack<Integer> pivot, int mover) {
+		if(mover == 1){
+			if(finish.isEmpty() || finish.peek() > start.peek()){
+				finish.push(start.pop());
+				printTowers("");
 			}else{
-				if(pivot.isEmpty() || (pivot.peek() > start.peek())){
-					pivot.push(start.pop());
-				}else{
-					move(pivot,finish,start,indent+">");
-					pivot.push(start.pop());
-					move(finish,pivot,start,indent+">");
-				}
+				solveTower(finish,pivot,start,mover);
 			}
+		}else{
+			solveTower(start,pivot,finish,mover-1);
+			solveTower(start,finish,pivot,1);
+			solveTower(pivot,finish,start,mover-1);
 		}
 	}
 	
-	public void addDisks(List<Integer> disks, Stack<Integer> tower) {
+	public void solve(String towerA, String towerB, String towerC, int numDisks) {
+		Stack<Integer> start =
+		Stack<Integer> finish, Stack<Integer> pivot,
+	}
+	
+	
+	public Stack<Integer> getTowerByLetter(String letter){
+		switch (letter) {
+		case "A":
+			return towerA;
+			break;
+		case "B":
+			return towerB;
+			break;
+		case "C":
+			return towerC;
+			break;
+		default:
+			return null;
+			break;
+		}
+	}
+	
+	public void addDisks(List<Integer> disks, String towerLetter) {
+		Stack<Integer> tower = getTowerByLetter(towerLetter);
+		
 		for (Integer disk : disks) {
 			tower.push(disk);
 			numDisks++;

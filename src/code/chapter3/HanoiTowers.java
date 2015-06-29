@@ -6,6 +6,20 @@ import java.util.Stack;
 
 public class HanoiTowers {
 
+	public Stack<Integer> towerA;
+	public Stack<Integer> towerB;
+	public Stack<Integer> towerC;
+	public int numDisks;
+	public int maxDiskSize;
+	
+	public HanoiTowers(){
+		towerA = new Stack<>();
+		towerB = new Stack<>();
+		towerC = new Stack<>();
+		numDisks = 0;
+		maxDiskSize = 0;
+	}
+	
 	public static void main(String[] args) {
 		List<Integer> disks = new ArrayList<Integer>();
 		disks.add(7);
@@ -17,23 +31,7 @@ public class HanoiTowers {
 		disks.add(1);
 		HanoiTowers hanoiTowers = new HanoiTowers();
 		hanoiTowers.addDisks(disks, "A");
-		hanoiTowers.solve("A","C","B",disks.size());
-	}
-	
-	public Stack<Integer> towerA;
-	public Stack<Integer> towerB;
-	public Stack<Integer> towerC;
-	public int numDisks;
-	public int maxDisk;
-	public int cont;
-	
-	public HanoiTowers(){
-		towerA = new Stack<>();
-		towerB = new Stack<>();
-		towerC = new Stack<>();
-		numDisks = 0;
-		maxDisk = 0;
-		cont = 0;
+		hanoiTowers.solve("A","C","B");
 	}
 	
 	/*
@@ -50,7 +48,7 @@ public class HanoiTowers {
 		if(mover == 1){
 			if(finish.isEmpty() || finish.peek() > start.peek()){
 				finish.push(start.pop());
-				printTowers("");
+				drawTowers();
 			}else{
 				solveTowers(finish,pivot,start,mover);
 			}
@@ -61,70 +59,68 @@ public class HanoiTowers {
 		}
 	}
 	
-	public void solve(String start, String finish, String pivot, int numDisks) {
-		Stack<Integer> startT = getTowerByLetter(start);
-		Stack<Integer> finishT = getTowerByLetter(finish);
-		Stack<Integer> pivotT = getTowerByLetter(pivot);
-		solveTowers(startT, finishT, pivotT, numDisks);
+	public void solve(String start, String finish, String pivot) {
+		Stack<Integer> startTower = getTowerByLetter(start);
+		Stack<Integer> finishTower = getTowerByLetter(finish);
+		Stack<Integer> pivotTower = getTowerByLetter(pivot);
+		solveTowers(startTower, finishTower, pivotTower, startTower.size());
 	}
 	
 	public Stack<Integer> getTowerByLetter(String letter){
 		switch (letter) {
-		case "A":
-			return towerA;
-			break;
-		case "B":
-			return towerB;
-			break;
-		case "C":
-			return towerC;
-			break;
-		default:
-			return null;
-			break;
+			case "A":
+				return towerA;
+			case "B":
+				return towerB;
+			case "C":
+				return towerC;
+			default:
+				return null;
 		}
 	}
 	
-	public void addDisks(List<Integer> disks, String towerLetter) {
-		Stack<Integer> tower = getTowerByLetter(towerLetter);
+	public void addDisks(List<Integer> disks, String letter) {
+		Stack<Integer> tower = getTowerByLetter(letter);
 		
 		for (Integer disk : disks) {
 			tower.push(disk);
 			numDisks++;
-			if(disk > maxDisk){
-				maxDisk = disk;
+			if(disk > maxDiskSize){
+				maxDiskSize = disk;
 			}
 		}
 	}
 	
-	public String[] getTowerDrawArray(Stack<Integer> tower, int numElements, int maxSize) {
-		int numRows = 0;
-		String[] bottomRows = new String[numElements];
-		String spacing = new String(new char[numElements]).replace("\0", " ");
-		String halfDisk = spacing + "|" + spacing;
-		for(int i=0;i<numElements;i++){
-			bottomRows[i] = halfDisk;
+	public String[] getDrawingArray(Stack<Integer> tower) {
+		String[] rows = new String[numDisks];
+		String spacing = new String(new char[numDisks]).replace("\0", " ");
+		String halfDisk = spacing;
+		
+		for(int i=0;i<numDisks;i++){
+			rows[i] = halfDisk + "|" + halfDisk;
 		}
-		for (Integer integer : tower) {
-			int offset = maxSize - integer;
-			spacing = new String(new char[offset]).replace("\0", " ");
-			halfDisk = new String(new char[integer]).replace("\0", "_");
-			bottomRows[numElements-numRows-1] = spacing + halfDisk + integer + halfDisk + spacing;
+		
+		int numRows = 0;
+		for (Integer diskSize : tower) {
+			int blankSpaces = maxDiskSize - diskSize;
+			spacing = new String(new char[blankSpaces]).replace("\0", " ");
+			halfDisk = new String(new char[diskSize]).replace("\0", "_");
+			rows[numDisks-numRows-1] = spacing + halfDisk + diskSize + halfDisk + spacing;
 			numRows++;
 		}
-		return bottomRows;
+		return rows;
 	}
 	
-	public void printTowers(String indent){
-		String[] tA = getTowerDrawArray(towerA, numDisks, maxDisk);
-		String[] tB = getTowerDrawArray(towerB, numDisks, maxDisk);
-		String[] tC = getTowerDrawArray(towerC, numDisks, maxDisk);
+	public void drawTowers(){
+		String[] tA = getDrawingArray(towerA);
+		String[] tB = getDrawingArray(towerB);
+		String[] tC = getDrawingArray(towerC);
 		
 		for(int i =0;i<numDisks;i++){
-			System.out.println(indent + tA[i] + " " + tB[i] + " " + tC[i]);
+			System.out.println(tA[i] + " " + tB[i] + " " + tC[i]);
 		}
 		
-		String spacing = new String(new char[((numDisks*2)+2)*3]).replace("\0", "=");
-		System.out.println(spacing);
+		String separator = new String(new char[((numDisks*2)+2)*3]).replace("\0", "=");
+		System.out.println(separator);
 	}
 }

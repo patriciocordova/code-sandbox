@@ -53,20 +53,20 @@ public class BTree<T> {
 	public void preOrder(){
 		System.out.println(value);
 		if(left!=null){
-			left.inOrder();
+			left.preOrder();
 		}
 		if(right!=null){
-			right.inOrder();
+			right.preOrder();
 		}
 	}
 	
 	public void postOrder(){
 		System.out.println(value);
 		if(left!=null){
-			left.inOrder();
+			left.postOrder();
 		}
 		if(right!=null){
-			right.inOrder();
+			right.postOrder();
 		}
 	}
 }

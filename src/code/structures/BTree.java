@@ -1,6 +1,6 @@
 package code.structures;
 
-public class BTree<T> {
+public class BTree<T extends Comparable<T>> {
 
 	public static void main(String[] args) {
 		BTree<Integer> btree = new BTree<>(2);
@@ -11,21 +11,21 @@ public class BTree<T> {
 		btree.add(2);
 		btree.add(4);
 		btree.add(6);
-		btree.postOrder();
+		btree.inOrder();
 	}
 	
-	Integer value;
+	T value;
 	BTree<T> left;
 	BTree<T> right;
 	
-	public BTree(Integer value){
+	public BTree(T value){
 		this.value = value;
 		this.left = null;
 		this.right = null;
 	}
 	
-	public void add(Integer add){
-		if(add > value){
+	public void add(T add){
+		if(add.compareTo(value) > 0){
 			if(right == null){
 				right = new BTree<>(add);
 			}else{

@@ -7,6 +7,10 @@ public class BTree<T extends Comparable<T>> {
 	public static void main(String[] args) {
 		BTree<Integer> btree = new BTree<>(2);
 		btree.add(1);
+		btree.add(0);
+		btree.add(1);
+		btree.add(1);
+		btree.add(1);
 		btree.add(3);
 		btree.add(5);
 		btree.add(7);
@@ -96,21 +100,33 @@ public class BTree<T extends Comparable<T>> {
 	public static void print(BTree tree){
 		nodes = new ArrayList<>();
 		preOrder(tree,0,0);
-		int max = (int) Math.pow(2,nodes.size()-1);
-		String spacing = new String(new char[max/2]).replace("\0", " ");
+		int max = (int) Math.pow(2,nodes.size());
+		String spacing;
 		for(int i=0;i<nodes.size();i++){
 			Integer[] row = nodes.get(i);
+			int space = max / row.length;
+			spacing = new String(new char[space/2]).replace("\0", " ");
 			System.out.print(spacing);
-			max = max-row.length;
-			max = (max < 0)?0:max;
-			spacing = new String(new char[max/2]).replace("\0", " ");
+			String toPrint = spacing;
 			for(int j = 0;j<row.length;j++){
-				if(row[j]!=null)
-					System.out.print(row[j] + " ");
-				else
-					System.out.print(" ");
+				String toAppend = "";
+				if(j%2 == 0){
+					toAppend = "/";
+				}else{
+					toAppend = "\\";
+				}
+				if(row[j]!=null){
+					toPrint += row[j] + spacing + spacing.substring(0,spacing.length() - 1);
+					System.out.print(toAppend + spacing + spacing.substring(0,spacing.length() - 1));
+				}
+				else{
+					toPrint += " " + spacing + spacing.substring(0,spacing.length() - 1);
+					System.out.print(" " + spacing);
+					System.out.print(spacing.substring(0,spacing.length() - 1));
+				}
 			}
 			System.out.println();
+			System.out.println(toPrint);
 		}
 	}
 }

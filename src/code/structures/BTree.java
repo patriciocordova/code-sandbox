@@ -18,7 +18,7 @@ public class BTree<T extends Comparable<T>> {
 		btree.add(4);
 		btree.add(6);
 		//btree.inOrder();
-		print(btree);
+		btree.print();
 	}
 	
 	T value;
@@ -77,56 +77,54 @@ public class BTree<T extends Comparable<T>> {
 		}
 	}
 	
-	public static void preOrder(BTree tree, int level, int posicion){
-		addValue(level,Integer.parseInt(tree.value.toString()),posicion);
+	public ArrayList<Integer[]> treeLayers;
+	
+	public void layerizeTree(BTree tree, int level, int position){
+		addElementLayer(tree,level,Integer.parseInt(tree.value.toString()),position);
 		if(tree.left!=null){
-			preOrder(tree.left,level+1,(posicion*2));
+			layerizeTree(tree.left,level+1,(position*2));
 		}
 		if(tree.right!=null){
-			preOrder(tree.right,level+1,(posicion*2)+1);
+			layerizeTree(tree.right,level+1,(position*2)+1);
 		}
 	}
 	
-	public static void addValue(int level,int value, int position){
-		int numElements = (int) Math.pow(2,level);
-		if(nodes.size() < level+1){
-			nodes.add(level,new Integer[numElements]);
+	public void addElementLayer(BTree tree, int level, int value, int position){
+		int maxLeafs = (int) Math.pow(2,level);
+		// Create new ArrayList array element after reaching a new level in the tree.
+		if(treeLayers.size() < level+1){
+			treeLayers.add(level,new Integer[maxLeafs]);
 		}
-		nodes.get(level)[position] = value;
-		System.out.println(level + "," + position + " " + value);
+		treeLayers.get(level)[position] = value;
+		//System.out.println(level + "," + position + " " + value);
 	}
 	
-	public static ArrayList<Integer[]> nodes;
-	public static void print(BTree tree){
-		nodes = new ArrayList<>();
-		preOrder(tree,0,0);
-		int max = (int) Math.pow(2,nodes.size());
-		String spacing;
-		for(int i=0;i<nodes.size();i++){
-			Integer[] row = nodes.get(i);
-			int space = max / row.length;
-			spacing = new String(new char[space/2]).replace("\0", " ");
-			System.out.print(spacing);
-			String toPrint = spacing;
-			for(int j = 0;j<row.length;j++){
-				String toAppend = "";
-				if(j%2 == 0){
-					toAppend = "/";
-				}else{
-					toAppend = "\\";
-				}
-				if(row[j]!=null){
-					toPrint += row[j] + spacing + spacing.substring(0,spacing.length() - 1);
-					System.out.print(toAppend + spacing + spacing.substring(0,spacing.length() - 1));
+	public void print(){
+		treeLayers = new ArrayList<>();
+		layerizeTree(this,0,0);
+		int maxTreeWidth = (int) Math.pow(2,treeLayers.size());
+		String elementsLine,branchesLine,spacing,spacingMinusOne;
+		
+		for(int i=0;i<treeLayers.size();i++){
+			Integer[] layer = treeLayers.get(i);
+			int layerSpace = maxTreeWidth / layer.length;
+			spacing = new String(new char[layerSpace/2]).replace("\0", " ");
+			spacingMinusOne = spacing.substring(0,spacing.length()-1);
+			elementsLine="";
+			branchesLine="";
+			for(int j = 0;j<layer.length;j++){
+				String branchDirection = (j%2 == 0)?"/":"\\";
+				if(layer[j]!=null){
+					branchesLine += spacing + branchDirection + spacingMinusOne;
+					elementsLine += spacing + layer[j] + spacingMinusOne;
 				}
 				else{
-					toPrint += " " + spacing + spacing.substring(0,spacing.length() - 1);
-					System.out.print(" " + spacing);
-					System.out.print(spacing.substring(0,spacing.length() - 1));
+					branchesLine += " " + spacing + spacingMinusOne;
+					elementsLine += " " + spacing + spacingMinusOne;
 				}
 			}
-			System.out.println();
-			System.out.println(toPrint);
+			
+			System.out.println(branchesLine + "\n" +elementsLine);
 		}
 	}
 }

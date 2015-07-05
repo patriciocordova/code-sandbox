@@ -7,7 +7,6 @@ public class BTree<T extends Comparable<T>> {
 	public static void main(String[] args) {
 		BTree<Integer> btree = new BTree<>(2);
 		btree.add(1);
-		btree.add(0);
 		btree.add(1);
 		btree.add(1);
 		btree.add(1);
@@ -89,13 +88,13 @@ public class BTree<T extends Comparable<T>> {
 		}
 	}
 	
-	public void addElementLayer(BTree tree, int level, int value, int position){
+	public void addElementLayer(BTree tree,int level,int value,int position){
 		int maxLeafs = (int) Math.pow(2,level);
-		// Create new ArrayList array element after reaching a new level in the tree.
+		// Create new ArrayList array element after reaching a new level.
 		if(treeLayers.size() < level+1){
 			treeLayers.add(level,new Integer[maxLeafs]);
 		}
-		treeLayers.get(level)[position] = value;
+		treeLayers.get(level)[position] = value; 
 		//System.out.println(level + "," + position + " " + value);
 	}
 	
@@ -107,11 +106,12 @@ public class BTree<T extends Comparable<T>> {
 		
 		for(int i=0;i<treeLayers.size();i++){
 			Integer[] layer = treeLayers.get(i);
-			int layerSpace = maxTreeWidth / layer.length;
-			spacing = new String(new char[layerSpace/2]).replace("\0", " ");
+			int layerSpacing = maxTreeWidth / layer.length;
+			spacing = new String(new char[layerSpacing/2]).replace("\0", " ");
 			spacingMinusOne = spacing.substring(0,spacing.length()-1);
 			elementsLine="";
 			branchesLine="";
+			
 			for(int j = 0;j<layer.length;j++){
 				String branchDirection = (j%2 == 0)?"/":"\\";
 				if(layer[j]!=null){
@@ -124,7 +124,9 @@ public class BTree<T extends Comparable<T>> {
 				}
 			}
 			
-			System.out.println(branchesLine + "\n" +elementsLine);
+			branchesLine += "\n";
+			if(i == 0) branchesLine = "";
+			System.out.println(branchesLine + elementsLine);			
 		}
 	}
 }

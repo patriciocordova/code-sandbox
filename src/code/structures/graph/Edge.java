@@ -1,4 +1,4 @@
-package code.structures;
+package code.structures.graph;
 
 public class Edge<T extends Comparable<T>> implements Comparable<Edge<T>> {
 	Vertex<T> a;

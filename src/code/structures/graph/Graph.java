@@ -1,4 +1,4 @@
-package code.structures;
+package code.structures.graph;
 
 import java.util.ArrayList;
 

@@ -21,7 +21,7 @@ public class Graph<T extends Comparable<T>> {
 		g.addVertex(3);
 		g.connect(1,2);
 		g.connect(2,3);
-		g.connect(2,3);
+		g.connect(3,2);
 	}
 	
 	public void connect(T a, T b){
@@ -40,6 +40,8 @@ public class Graph<T extends Comparable<T>> {
 			return edge;
 		}else{
 			edge = new Edge<>(a, b);
+			a.addAdjacency(b);
+			b.addAdjacency(a);
 			edges.add(edge);
 			return edge;
 		}

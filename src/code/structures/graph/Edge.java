@@ -6,11 +6,13 @@ public class Edge<T extends Comparable<T>> implements Comparable<Edge<T>> {
 	String pair;
 	
 	public Edge(Vertex<T> a, Vertex<T> b) {
-		this.a = a;
-		this.b = b;
 		if(a.compareTo(b)<0){
+			this.a = a;
+			this.b = b;
 			pair = a+"|"+b;
 		}else{
+			this.a = b;
+			this.b = a;
 			pair = b+"|"+a;
 		}
 	}

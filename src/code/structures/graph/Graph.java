@@ -1,13 +1,16 @@
 package code.structures.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class Graph<T extends Comparable<T>> {
-	ArrayList<Vertex<T>> verteces;
+	HashMap<T,Vertex<T>> verteces;
 	ArrayList<Edge<T>> edges;
 	
 	public Graph() {
-		verteces = new ArrayList<>();
+		verteces = new HashMap<>();
 		edges = new ArrayList<>();
 	}
 	
@@ -15,7 +18,10 @@ public class Graph<T extends Comparable<T>> {
 		Graph<Integer> g = new Graph<>();
 		g.addVertex(1);
 		g.addVertex(2);
-		g.addVertex(1);
+		g.addVertex(3);
+		g.connect(1,2);
+		g.connect(2,3);
+		g.connect(2,3);
 	}
 	
 	public void connect(T a, T b){
@@ -23,51 +29,41 @@ public class Graph<T extends Comparable<T>> {
 			 return;
 		}
 		
-		Vertex<T> vertexA = null;
-		Vertex<T> vertexB = null;
-		for (Vertex<T> v : verteces) {
-			if(a.compareTo(v.element)==0){
-				vertexA = v;
-			}
-			if(b.compareTo(v.element)==0){
-				vertexB = v;
-			}
-			if(vertexA != null && vertexB != null){
-				break;
-			}
+		Vertex<T> vertexA = addVertex(a);
+		Vertex<T> vertexB = addVertex(b);
+		addEdge(vertexA, vertexB);
+	}
+	
+	public Edge<T> addEdge(Vertex<T> a, Vertex<T> b){
+		Edge<T> edge = findEdge(new Edge(a,b));
+		if(edge != null){
+			return edge;
+		}else{
+			edge = new Edge<>(a, b);
+			edges.add(edge);
+			return edge;
 		}
-		
-		if(vertexA == null){
-			vertexA = addVertex(a);
-		}
-		
-		if(vertexB == null){
-			vertexB = addVertex(b);
-		}
-		
-		
 	}
 	
 	public Vertex<T> addVertex(T element){
-		Vertex<T> vertex = new Vertex<>(element);
-		int vertexIndex = verteces.indexOf(vertex);
-		if(vertexIndex != -1){
-			return verteces.get(vertexIndex);
+		Vertex<T> vertex = findVertex(element);
+		if(vertex != null){
+			return vertex;
 		}else{
-			verteces.add(vertex);
+			verteces.put(element,new Vertex<T>(element));
 			return vertex;
 		}
 	}
 	
-	public Edge<T> addEdge(Vertex<T> a, Vertex<T> b) {
-		Edge<T> edgeAB = new Edge<>(a, b);
-		for (Edge<T> e : edges) {
-			if(e.compareTo(edgeAB) == 0){
-				return e;
-			}
+	public Edge<T> findEdge(Edge<T> e){
+		int index = Collections.binarySearch(edges, e);
+		if(index > 0){
+			return edges.get(index);
 		}
-		
-		edges.add(edgeAB);
-		return edgeAB;
+		return null;
+	}
+	
+	public Vertex<T> findVertex(T element){
+		return verteces.get(element);
 	}
 }

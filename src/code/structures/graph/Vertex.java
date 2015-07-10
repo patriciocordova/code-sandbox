@@ -5,10 +5,12 @@ import java.util.HashMap;
 
 public class Vertex<T extends Comparable<T>> implements Comparable<Vertex<T>> {
 	T value;
+	boolean visited;
 	HashMap<T,Vertex<T>> adjacencies;
 	
 	public Vertex(T element){
 		this.value = element;
+		boolean visited = false;
 		this.adjacencies = new HashMap<T, Vertex<T>>();
 	}
 	

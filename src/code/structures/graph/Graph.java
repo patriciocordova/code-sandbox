@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 public class Graph<T extends Comparable<T>> {
 	HashMap<T,Vertex<T>> verteces;
@@ -19,9 +25,28 @@ public class Graph<T extends Comparable<T>> {
 		g.addVertex(1);
 		g.addVertex(2);
 		g.addVertex(3);
+		g.addVertex(4);
 		g.connect(1,2);
-		g.connect(2,3);
-		g.connect(3,2);
+		g.connect(2,4);
+		g.connect(2,3);		
+		g.dfs(1);
+	}
+	
+	public void dfs(T element){
+		Vertex<T> start = verteces.get(element);
+		if(start!=null){
+			dfsSearch(start);
+		}
+	}
+	
+	public void dfsSearch(Vertex<T> vertex){
+		System.out.println(vertex.value);
+		vertex.visited = true;
+		for (Entry<T, Vertex<T>> adjacent : vertex.adjacencies.entrySet()) {
+			if(!adjacent.getValue().visited){
+				dfsSearch(adjacent.getValue());
+			}
+		}
 	}
 	
 	public void connect(T a, T b){

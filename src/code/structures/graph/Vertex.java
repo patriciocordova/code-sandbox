@@ -18,7 +18,7 @@ public class Vertex<T extends Comparable<T>> implements Comparable<Vertex<T>> {
 	
 	public void addAdjacency(Vertex<T> v){
 		int index = Collections.binarySearch(adjacencies, v);
-		if(index == -1){
+		if(index < 0){
 			adjacencies.add(v);
 		}
 	}

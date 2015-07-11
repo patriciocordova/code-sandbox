@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
+import com.sun.security.jgss.ExtendedGSSContext;
 
 public class Graph<T extends Comparable<T>> {
 	ArrayList<Vertex<T>> verteces;
@@ -27,35 +28,47 @@ public class Graph<T extends Comparable<T>> {
 		g.addVertex(2);
 		g.addVertex(3);
 		g.addVertex(4);
+		g.addVertex(5);
 		g.connect(1,2);
 		g.connect(2,4);
-		g.connect(2,3);		
+		g.connect(2,3);
+		g.connect(4,3);
+		g.connect(1,5);
+		g.connect(5,3);
 		g.dfs(1);
 	}
 	
 	public void dfs(T element){
-		Vertex<T> start = find(verteces,element);
+		Vertex<T> start = findVertex(new Vertex<T>(element));
 		if(start!=null){
 			dfsSearch(start);
 		}
 	}
 	
-	public T find(List<? extends Comparable<? super T>> list, T element){
-		int index = Collections.binarySearch(list, element);
-		if(index == -1){
-			return (T) list.get(index);
+	private Vertex<T> findVertex(Vertex<T> vertex) {
+		int index = Collections.binarySearch(verteces, vertex);
+		if(index >= 0){
+			return verteces.get(index);
+		}
+		return null;
+	}
+	
+	private Edge<T> findEdge(Edge<T> edge) {
+		int index = Collections.binarySearch(edges, edge);
+		if(index >= 0){
+			return edges.get(index);
 		}
 		return null;
 	}
 	
 	public void dfsSearch(Vertex<T> vertex){
-		System.out.println(vertex.value);
 		vertex.visited = true;
-		for (Entry<T, Vertex<T>> adjacent : vertex.adjacencies.entrySet()) {
-			if(!adjacent.getValue().visited){
-				dfsSearch(adjacent.getValue());
+		for (Vertex<T> adjacent : vertex.adjacencies) {
+			if(!adjacent.visited){
+				dfsSearch(adjacent);
 			}
 		}
+		System.out.println(vertex.value);
 	}
 	
 	public void connect(T a, T b){
@@ -82,24 +95,12 @@ public class Graph<T extends Comparable<T>> {
 	}
 	
 	public Vertex<T> addVertex(T element){
-		Vertex<T> vertex = findVertex(element);
+		Vertex<T> vertex = findVertex(new Vertex<>(element));
 		if(vertex != null){
 			return vertex;
 		}else{
-			verteces.put(element,new Vertex<T>(element));
+			verteces.add(new Vertex<T>(element));
 			return vertex;
 		}
-	}
-	
-	public Edge<T> findEdge(Edge<T> e){
-		int index = Collections.binarySearch(edges, e);
-		if(index > 0){
-			return edges.get(index);
-		}
-		return null;
-	}
-	
-	public Vertex<T> findVertex(T element){
-		return verteces.get(element);
 	}
 }

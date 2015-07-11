@@ -1,22 +1,25 @@
 package code.structures.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Vertex<T extends Comparable<T>> implements Comparable<Vertex<T>> {
 	T value;
 	boolean visited;
-	HashMap<T,Vertex<T>> adjacencies;
+	ArrayList<Vertex<T>> adjacencies;
 	
 	public Vertex(T element){
 		this.value = element;
 		boolean visited = false;
-		this.adjacencies = new HashMap<T, Vertex<T>>();
+		this.adjacencies = new ArrayList<Vertex<T>>();
 	}
 	
-	public void addAdjacency(Vertex<T> b){
-		if(!adjacencies.containsKey(b.value)){
-			adjacencies.put(b.value,b);
+	public void addAdjacency(Vertex<T> v){
+		int index = Collections.binarySearch(adjacencies, v);
+		if(index == -1){
+			adjacencies.add(v);
 		}
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -12,11 +13,11 @@ import java.util.TreeMap;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 public class Graph<T extends Comparable<T>> {
-	HashMap<T,Vertex<T>> verteces;
+	ArrayList<Vertex<T>> verteces;
 	ArrayList<Edge<T>> edges;
 	
 	public Graph() {
-		verteces = new HashMap<>();
+		verteces = new ArrayList<>();
 		edges = new ArrayList<>();
 	}
 	
@@ -33,10 +34,18 @@ public class Graph<T extends Comparable<T>> {
 	}
 	
 	public void dfs(T element){
-		Vertex<T> start = verteces.get(element);
+		Vertex<T> start = find(verteces,element);
 		if(start!=null){
 			dfsSearch(start);
 		}
+	}
+	
+	public T find(List<? extends Comparable<? super T>> list, T element){
+		int index = Collections.binarySearch(list, element);
+		if(index == -1){
+			return (T) list.get(index);
+		}
+		return null;
 	}
 	
 	public void dfsSearch(Vertex<T> vertex){

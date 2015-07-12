@@ -1,17 +1,10 @@
 package code.structures.graph;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
-import com.sun.security.jgss.ExtendedGSSContext;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Graph<T extends Comparable<T>> {
 	ArrayList<Vertex<T>> verteces;
@@ -35,7 +28,7 @@ public class Graph<T extends Comparable<T>> {
 		g.join(4,3);
 		g.join(1,5);
 		g.join(5,3);
-		g.depthSearch(1);
+		g.depthSearch(4);
 	}
 	
 	public void depthSearch(T element){
@@ -46,6 +39,34 @@ public class Graph<T extends Comparable<T>> {
 				vertex.visited = false;
 			}
 		}
+	}
+	
+	public void breadthSearch(T element){
+		Vertex<T> start = findVertex(new Vertex<T>(element));
+		if(start!=null){
+			bfs(start);
+			for (Vertex<T> vertex : verteces) {
+				vertex.visited = false;
+			}
+		}
+	}
+	
+	public void bfs(Vertex<T> vertex){
+		Queue<Vertex<T>> queue=new LinkedList<>();
+		System.out.println(vertex.value);
+		vertex.visited = true;
+		queue.add(vertex);
+		
+		while(!queue.isEmpty()){
+			Vertex<T> queued = queue.poll();
+			for (Vertex<T> adjacent : queued.adjacencies) {
+				if(!adjacent.visited){
+					System.out.println(adjacent.value);
+					adjacent.visited = true;
+					queue.add(adjacent);
+				}
+			}
+		};
 	}
 	
 	public void dfs(Vertex<T> vertex){
@@ -95,7 +116,7 @@ public class Graph<T extends Comparable<T>> {
 	}
 	
 	public Edge<T> addEdge(Vertex<T> a, Vertex<T> b){
-		Edge<T> edge = findEdge(new Edge(a,b));
+		Edge<T> edge = findEdge(new Edge<>(a,b));
 		if(edge != null){
 			return edge;
 		}else{

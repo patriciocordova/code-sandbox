@@ -29,19 +29,32 @@ public class Graph<T extends Comparable<T>> {
 		g.addVertex(3);
 		g.addVertex(4);
 		g.addVertex(5);
-		g.connect(1,2);
-		g.connect(2,4);
-		g.connect(2,3);
-		g.connect(4,3);
-		g.connect(1,5);
-		g.connect(5,3);
-		g.dfs(1);
+		g.join(1,2);
+		g.join(2,4);
+		g.join(2,3);
+		g.join(4,3);
+		g.join(1,5);
+		g.join(5,3);
+		g.depthSearch(1);
 	}
 	
-	public void dfs(T element){
+	public void depthSearch(T element){
 		Vertex<T> start = findVertex(new Vertex<T>(element));
 		if(start!=null){
-			dfsSearch(start);
+			dfs(start);
+			for (Vertex<T> vertex : verteces) {
+				vertex.visited = false;
+			}
+		}
+	}
+	
+	public void dfs(Vertex<T> vertex){
+		System.out.println(vertex.value);
+		vertex.visited = true;
+		for (Vertex<T> adjacent : vertex.adjacencies) {
+			if(!adjacent.visited){
+				dfs(adjacent);
+			}
 		}
 	}
 	
@@ -62,16 +75,16 @@ public class Graph<T extends Comparable<T>> {
 	}
 	
 	public void dfsSearch(Vertex<T> vertex){
+		System.out.println(vertex.value);
 		vertex.visited = true;
 		for (Vertex<T> adjacent : vertex.adjacencies) {
 			if(!adjacent.visited){
 				dfsSearch(adjacent);
 			}
 		}
-		System.out.println(vertex.value);
 	}
 	
-	public void connect(T a, T b){
+	public void join(T a, T b){
 		if(a.compareTo(b) == 0){
 			 return;
 		}

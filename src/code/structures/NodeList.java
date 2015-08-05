@@ -55,4 +55,10 @@ public class NodeList<T> implements Iterator {
 		current = null;
 		traveled = false;
 	}
+
+	@Override
+	public void remove() {
+		// TODO Auto-generated method stub
+		
+	}
 }

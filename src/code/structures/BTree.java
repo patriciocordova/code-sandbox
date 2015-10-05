@@ -16,8 +16,8 @@ public class BTree<T extends Comparable<T>> {
 		btree.add(2);
 		btree.add(4);
 		btree.add(6);
-		//btree.inOrder();
-		btree.print();
+		btree.inOrder();
+		//btree.print();
 	}
 	
 	T value;

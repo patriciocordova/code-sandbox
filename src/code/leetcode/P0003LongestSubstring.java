@@ -1,5 +1,6 @@
 package code.leetcode;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /*
@@ -11,10 +12,10 @@ import java.util.HashMap;
  * 
  */
 
-public class Problem0003LongestSubstring {
+public class P0003LongestSubstring {
 
 	public static void main(String[] args) {
-		Problem0003LongestSubstring ls = new Problem0003LongestSubstring();
+		P0003LongestSubstring ls = new P0003LongestSubstring();
 		System.out.println(ls.lengthOfLongestSubstring("abcadefbgahiafgf"));
 		System.out.println(ls.lengthOfLongestSubstring("abcabcbb"));
 		System.out.println(ls.lengthOfLongestSubstring("bbbbbb"));

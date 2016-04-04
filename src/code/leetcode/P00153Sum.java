@@ -20,7 +20,7 @@ import java.util.List;
 public class P00153Sum {
 	public static void main(String[] args){
 		P00153Sum threeSum = new P00153Sum();
-		threeSum.threeSum(new int[]{-1,0,1,2,-1,-4});
+		threeSum.threeSum(new int[]{-4,0,0,2,2,2,2});
 	}
 	
 	public List<List<Integer>> threeSum(int[] A) {

@@ -4,27 +4,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class P0022GenerateParentheses {
-	public static void main(String args[]){
+
+	public static void main(String[] args) {
 		P0022GenerateParentheses gp = new P0022GenerateParentheses();
-		gp.generateParenthesis(3);
+		System.out.println(gp.generateParenthesis(3).toString());
 	}
 	
-	public List<String> generateParenthesis(int n) {
-		List<String> list = new LinkedList<String>();
-		backtrack(list, "", 0, 0, n);
-		return list;
+	public List<String> generateParenthesis(int num){
+		List<String> result = new LinkedList<String>();
+		bracktrackParentheses(0,0,num,"",result);
+		return result;
 	}
-
-	public void backtrack(List<String> list, String str, int open, int close, int max){
-
-		if(str.length() == max*2){
-			list.add(str);
-			return;
+	
+	public void bracktrackParentheses(int left, int right, int max, String current, List<String> result){
+		if(left < max){
+			bracktrackParentheses(left+1, right, max, current + "(", result);
 		}
-
-		if(open < max)
-			backtrack(list, str+"(", open+1, close, max);
-			if(close < open)
-				backtrack(list, str+")", open, close+1, max);
+		if(right < max && right < left){
+			bracktrackParentheses(left, right+1, max, current + ")", result);
+		}
+		if(left == right && right == max){
+			result.add(current);
+		}
 	}
 }

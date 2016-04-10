@@ -18,22 +18,27 @@ import java.util.Arrays;
 public class P0300LongestIncreasingSubsequence {
 
 	public static void main(String[] args) {
-		int[] array = {0,8,4,-2,12,2,10,6,14,1,9,5,13,3,11,7,15};
-		lengthOfLIS(array);
+		int[] array = {0,8,8,4,-2,12,2,10,6,14,1,9,5,13,3,11,7,15};
+		P0300LongestIncreasingSubsequence lis = new P0300LongestIncreasingSubsequence();
+		System.out.println(lis.lis(array));
 	}
 	
-	public static int lengthOfLIS(int[] nums) {            
-        int[] dp = new int[nums.length];
-        int len = 0;
-
-        for(int x : nums) {
-            int i = Arrays.binarySearch(dp, 0, len, x);
-            if(i < 0) i = -(i + 1);
-            dp[i] = x;
-            //System.out.println("dp["+i+"]="+x + " \tlen:" + len);
-            if(i == len) len++;
-        }
-
-        return len;
-    }
+	public int lis(int[] sequence){
+		int[] solution = new int[sequence.length];
+		int max = 0;
+		int position = 0;
+		for(int i=0;i<sequence.length;i++){
+			position = Arrays.binarySearch(solution, 0, max, sequence[i]);
+			if(position < 0){
+				position = -(position+1);
+			}
+			if(max == position || solution[position] > sequence[i]){
+				solution[position] = sequence[i];
+			}
+			if(position+1>max){
+				max++;
+			}
+		}
+		return max;
+	}
 }
